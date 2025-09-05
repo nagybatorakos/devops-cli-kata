@@ -22,3 +22,18 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo CI ok!
+  healthcheck:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Healthcheck
+        shell: pwsh 
+        run: |
+          $r = Invoke-WebRequest -Uri https://example.com -UseBasicParsing -TimeoutSec 10
+          if ($r.StatusCode -ge 200 -and $r.StatusCode -lt 400) {
+            Write-Host "OK $($r.StatusCode)"
+            exit 0
+          } else {
+            Write-Host "FAILED $($r.StatusCode)"
+            exit 1
+          }
