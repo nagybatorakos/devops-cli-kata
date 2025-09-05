@@ -1,0 +1,1 @@
+gyakorlás: Git CLI + CI
